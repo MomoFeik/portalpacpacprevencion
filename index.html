@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PAC PAC · Portal de documentación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#12212b;--mute:#5b6c78;--line:#d8e0e5;--navy:#0a2e4a;--teal:#14808a;--yel:#f5b700;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1820;--card:#12262f;--ink:#e8f0f4;--mute:#97aab5;--line:#24404d;--navy:#071f33;--teal:#3cb4bf;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1820;--card:#12262f;--ink:#e8f0f4;--mute:#97aab5;--line:#24404d;--navy:#071f33;--teal:#3cb4bf;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:80px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;margin:0;line-height:1.1}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 20px;flex-wrap:wrap}
+.logos{display:flex;gap:10px}
+.logo{width:116px;height:48px;background:#fff;border-radius:8px;display:grid;place-items:center;overflow:hidden;color:#12212b;font-size:11px;text-align:center}
+.logo img{width:100%;height:100%;object-fit:contain}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+nav a{color:inherit;text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:600;font-size:15px}
+nav a:hover{background:rgba(255,255,255,.14)}
+#theme{background:none;border:1px solid rgba(255,255,255,.35);color:inherit;border-radius:6px;padding:6px 10px}
+.hero{background:var(--navy);color:#fff;padding:56px 20px 66px;position:relative}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(-45deg,var(--yel) 0 18px,#12212b 18px 36px)}
+.wrap{max-width:1120px;margin:0 auto}
+.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800;letter-spacing:-.02em}
+.hero p{max-width:58ch;font-size:1.15rem;color:#cfe0ea;margin:16px 0 0}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.meta span{background:rgba(255,255,255,.1);border-radius:6px;padding:5px 12px;font-size:.95rem}
+.meta span:empty{display:none}
+section{padding:56px 20px}
+.alt{background:color-mix(in srgb,var(--card) 70%,var(--bg))}
+.sh{margin-bottom:24px}
+.sh h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800}
+.sh p{margin:6px 0 0;color:var(--mute)}
+.video{max-width:900px;margin:0 auto;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;display:grid;place-items:center;color:#cfe0ea}
+.video video,.video iframe{width:100%;height:100%;border:0}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input[type=search]{flex:1;min-width:200px;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px}
+.chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn{border:1px solid var(--yel);background:var(--yel);color:#12212b;border-radius:8px;padding:8px 16px;font-weight:600;text-decoration:none;display:inline-block}
+.btn[aria-disabled=true]{background:var(--card);border-color:var(--line);color:var(--mute);pointer-events:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.doc{padding:18px;gap:10px;border-top:5px solid var(--teal)}
+.doc[data-c=Mapas]{border-top-color:var(--yel)}
+.doc[data-c=Formatos]{border-top-color:#c8553d}
+.doc .ico{font-size:1.8rem}
+.doc h3{font-size:1.1rem}
+.doc .cat{font-size:.9rem;color:var(--mute)}
+.doc .btn{margin-top:auto;align-self:flex-start}
+.photo{aspect-ratio:1;background:var(--line)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.pc{padding:12px 14px}
+.pc b{font-family:Archivo,sans-serif;display:block}
+.pc span{color:var(--mute);font-size:.92rem}
+.miss{display:grid;place-items:center;text-align:center;padding:10px;font-size:.8rem;color:var(--mute);background:var(--line);width:100%;height:100%;min-height:80px;word-break:break-all}
+.gal{columns:3 240px;column-gap:14px}
+.gal figure{margin:0 0 14px;break-inside:avoid;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.gal img{width:100%;display:block;cursor:zoom-in}
+.empty{padding:36px;text-align:center;color:var(--mute);border:2px dashed var(--line);border-radius:12px;grid-column:1/-1}
+dialog{border:0;border-radius:14px;padding:0;background:#000;max-width:min(1000px,94vw);width:100%}
+dialog::backdrop{background:rgba(5,15,22,.78)}
+dialog img{width:100%;max-height:86vh;object-fit:contain;display:block}
+dialog button{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;border:0;border-radius:6px;padding:6px 12px}
+footer{background:var(--navy);color:#cfe0ea;padding:28px 20px;font-size:.95rem}
+@media(max-width:640px){nav{margin-left:0;width:100%}.logo{width:96px;height:42px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logos"><div class="logo" id="lg-pac"></div><div class="logo" id="lg-uni"></div></div>
+  <nav aria-label="Secciones">
+    <a href="#inicio">Inicio</a><a href="#presentacion">Presentación</a><a href="#documentos">Documentos</a><a href="#equipo">Equipo</a><a href="#planta">Planta</a>
+    <button id="theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+  </nav>
+</header>
+<main>
+<div class="hero" id="inicio"><div class="wrap">
+  <h1>Pacific Packaging<br>(PAC PAC)</h1>
+  <p>Portal de documentación de seguridad, salud ocupacional y medio ambiente. Aquí se reúnen los planes, mapas y formatos de la empresa, y el registro fotográfico de la planta.</p>
+  <div class="meta" id="meta"></div>
+</div></div>
+
+<section id="presentacion"><div class="wrap">
+  <div class="sh"><h2>Presentación de la planta y del grupo</h2><p>Un recorrido breve por la planta y por quienes hicimos este trabajo.</p></div>
+  <div class="video" id="video"></div>
+</div></section>
+
+<section id="documentos" class="alt"><div class="wrap">
+  <div class="sh"><h2>Documentos</h2><p>Cada documento se abre desde Drive en una pestaña nueva.</p></div>
+  <div class="tools"><input type="search" id="q" placeholder="Buscar documento" aria-label="Buscar documento"><div class="chips" id="chips"></div></div>
+  <div class="grid" id="docs"></div>
+</div></section>
+
+<section id="equipo"><div class="wrap">
+  <div class="sh"><h2>Equipo</h2><p>Integrantes del grupo.</p></div>
+  <div class="grid" id="team"></div>
+</div></section>
+
+<section id="planta" class="alt"><div class="wrap">
+  <div class="sh"><h2>Planta industrial</h2><p>Toca una foto para verla en grande.</p></div>
+  <div class="gal" id="gal"></div>
+</div></section>
+</main>
+<footer><div class="wrap">PAC PAC · Proyecto universitario.</div></footer>
+<dialog id="dlg"><button id="dx">Cerrar</button><img id="dimg" alt="Foto de la planta"></dialog>
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN: edita solo esta parte.
+   Las rutas apuntan a la carpeta "media" de tu repositorio.
+   ============================================================ */
+var CONFIG = {
+  universidad: "",   // ej. "Universidad Nacional de Ingeniería"
+  curso: "",         // ej. "Seguridad y Salud Ocupacional"
+  grupo: "",         // ej. "Grupo 3"
+  docente: "",       // ej. "Ing. Pérez"
+
+  logoPac: "media/logos/logo-pac.png",
+  logoUni: "media/logos/logo-uni.png",
+
+  /* Video: usa UNO de los dos.
+     - youtube: pega solo el código del video (lo que va después de "v=" o "youtu.be/")
+     - mp4: ruta del archivo dentro del repositorio */
+  youtube: "",
+  mp4: "media/video/presentacion.mp4",
+
+  equipo: [
+    { nombre: "Integrante 1", rol: "Rol en el grupo", foto: "media/equipo/integrante1.jpg" },
+    { nombre: "Integrante 2", rol: "Rol en el grupo", foto: "media/equipo/integrante2.jpg" },
+    { nombre: "Integrante 3", rol: "Rol en el grupo", foto: "media/equipo/integrante3.jpg" },
+    { nombre: "Integrante 4", rol: "Rol en el grupo", foto: "media/equipo/integrante4.jpg" },
+    { nombre: "Integrante 5", rol: "Rol en el grupo", foto: "media/equipo/integrante5.jpg" }
+  ],
+
+  planta: [
+    "media/planta/planta-01.jpg",
+    "media/planta/planta-02.jpg",
+    "media/planta/planta-03.jpg",
+    "media/planta/planta-04.jpg",
+    "media/planta/planta-05.jpg"
+  ],
+
+  /* categoria: Planes, Mapas, Formatos u Otros. En "enlace" pega el link de Drive
+     (compartido como "Cualquier persona con el enlace puede ver"). */
+  documentos: [
+    { titulo: "Plan anual de SST", categoria: "Planes", enlace: "" },
+    { titulo: "Plan ambiental", categoria: "Planes", enlace: "" },
+    { titulo: "Plan de respuesta a emergencias", categoria: "Planes", enlace: "" },
+    { titulo: "Mapa de riesgos", categoria: "Mapas", enlace: "" },
+    { titulo: "Matriz IPERC", categoria: "Formatos", enlace: "" },
+    { titulo: "Formato de reporte de incidentes", categoria: "Formatos", enlace: "" },
+    { titulo: "Registro de capacitaciones", categoria: "Formatos", enlace: "" },
+    { titulo: "Formato de inspección de seguridad", categoria: "Formatos", enlace: "" }
+  ]
+};
+/* ============================ fin de la configuración ============================ */
+
+(function(){
+var $=function(s){return document.querySelector(s)};
+function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function pic(src,alt){var i=new Image();i.alt=alt;i.loading='lazy';i.src=src;i.onerror=function(){i.replaceWith(mk('div','miss','Falta el archivo: '+src))};return i}
+
+/* Logos */
+[['#lg-pac',CONFIG.logoPac,'Logo de PAC PAC'],['#lg-uni',CONFIG.logoUni,'Logo de la universidad']].forEach(function(l){$(l[0]).appendChild(pic(l[1],l[2]))});
+
+/* Datos de la portada */
+[CONFIG.universidad,CONFIG.curso,CONFIG.grupo,CONFIG.docente].forEach(function(t){$('#meta').appendChild(mk('span','',t))});
+
+/* Video */
+var v=$('#video');
+if(CONFIG.youtube){var f=document.createElement('iframe');f.src='https://www.youtube.com/embed/'+CONFIG.youtube;f.title='Video de presentación';f.allow='accelerometer; encrypted-media; picture-in-picture';f.allowFullscreen=true;v.appendChild(f)}
+else if(CONFIG.mp4){var m=document.createElement('video');m.controls=true;m.preload='metadata';m.playsInline=true;m.src=CONFIG.mp4;m.onerror=function(){v.innerHTML='';v.appendChild(mk('p','','El video aún no está disponible.'))};v.appendChild(m)}
+else v.appendChild(mk('p','','El video aún no está disponible.'));
+
+/* Documentos */
+var cat='Todos',ICON={Planes:'📘',Mapas:'🗺️',Formatos:'📝',Otros:'📄'};
+function chips(){var c=$('#chips');c.innerHTML='';['Todos','Planes','Mapas','Formatos','Otros'].forEach(function(n){var b=mk('button','chip',n);b.setAttribute('aria-pressed',n===cat);b.onclick=function(){cat=n;chips();docs()};c.appendChild(b)})}
+function docs(){
+  var q=$('#q').value.toLowerCase(),g=$('#docs');g.innerHTML='';
+  var l=CONFIG.documentos.filter(function(d){return (cat==='Todos'||d.categoria===cat)&&d.titulo.toLowerCase().indexOf(q)>-1});
+  if(!l.length){g.appendChild(mk('div','empty','No hay documentos con ese filtro. Prueba otra categoría.'));return}
+  l.forEach(function(d){
+    var c=mk('article','card doc');c.dataset.c=d.categoria;
+    c.appendChild(mk('div','ico',ICON[d.categoria]||ICON.Otros));c.appendChild(mk('h3','',d.titulo));c.appendChild(mk('div','cat',d.categoria));
+    var a=mk('a','btn',d.enlace?'Abrir en Drive':'Enlace pendiente');
+    if(d.enlace){a.href=d.enlace;a.target='_blank';a.rel='noopener'}else a.setAttribute('aria-disabled','true');
+    c.appendChild(a);g.appendChild(c);
+  });
+}
+$('#q').oninput=docs;chips();docs();
+
+/* Equipo */
+CONFIG.equipo.forEach(function(m){
+  var c=mk('article','card'),p=mk('div','photo');p.appendChild(pic(m.foto,'Foto de '+m.nombre));
+  var d=mk('div','pc');d.appendChild(mk('b','',m.nombre));d.appendChild(mk('span','',m.rol));
+  c.appendChild(p);c.appendChild(d);$('#team').appendChild(c);
+});
+
+/* Galería */
+CONFIG.planta.forEach(function(s,i){
+  var f=mk('figure'),im=pic(s,'Foto de la planta '+(i+1));
+  f.onclick=function(){if(im.tagName!=='IMG')return;$('#dimg').src=s;$('#dlg').showModal()};
+  f.appendChild(im);$('#gal').appendChild(f);
+});
+$('#dx').onclick=function(){$('#dlg').close()};
+$('#dlg').addEventListener('click',function(e){if(e.target===this)this.close()});
+
+/* Tema */
+try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+$('#theme').onclick=function(){var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('theme',r.dataset.theme)}catch(e){}};
+})();
+</script>
+</body>
+</html>
