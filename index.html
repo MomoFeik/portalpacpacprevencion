@@ -61,14 +61,23 @@ input[type=search]{flex:1;min-width:200px;font:inherit;color:var(--ink);backgrou
 .pc b{font-family:Archivo,sans-serif;display:block}
 .pc span{color:var(--mute);font-size:.92rem}
 .miss{display:grid;place-items:center;text-align:center;padding:10px;font-size:.8rem;color:var(--mute);background:var(--line);width:100%;height:100%;min-height:80px;word-break:break-all}
-.gal{columns:3 240px;column-gap:14px}
+.gal{columns:4 220px;column-gap:14px}
 .gal figure{margin:0 0 14px;break-inside:avoid;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .gal img{width:100%;display:block;cursor:zoom-in}
 .empty{padding:36px;text-align:center;color:var(--mute);border:2px dashed var(--line);border-radius:12px;grid-column:1/-1}
-dialog{border:0;border-radius:14px;padding:0;background:#000;max-width:min(1000px,94vw);width:100%}
+dialog{border:0;border-radius:14px;padding:0;background:#000;max-width:min(1000px,94vw);width:100%;overflow:auto}
 dialog::backdrop{background:rgba(5,15,22,.78)}
 dialog img{width:100%;max-height:86vh;object-fit:contain;display:block}
-dialog button{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;border:0;border-radius:6px;padding:6px 12px}
+dialog button{position:sticky;top:10px;float:right;margin:10px 10px 0 0;z-index:2;background:rgba(0,0,0,.7);color:#fff;border:0;border-radius:6px;padding:6px 12px}
+dialog img.z{width:220%;max-width:none;max-height:none;cursor:zoom-out}
+dialog img{cursor:zoom-in}
+.fmt{padding:18px;gap:8px;border-top:5px solid #c8553d}
+.fmt .n{font:800 1.6rem Archivo,sans-serif;color:var(--mute)}
+.fmt h3{font-size:1.02rem;line-height:1.25}
+.fmt .btn{margin-top:auto;align-self:flex-start}
+.map{max-width:1000px;margin:0 auto;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.map img{width:100%;display:block;cursor:zoom-in}
+.mapact{max-width:1000px;margin:14px auto 0;display:flex;gap:10px;flex-wrap:wrap}
 footer{background:var(--navy);color:#cfe0ea;padding:28px 20px;font-size:.95rem}
 @media(max-width:640px){nav{margin-left:0;width:100%}.logo{width:96px;height:42px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -78,7 +87,7 @@ footer{background:var(--navy);color:#cfe0ea;padding:28px 20px;font-size:.95rem}
 <header>
   <div class="logos"><div class="logo" id="lg-pac"></div><div class="logo" id="lg-uni"></div></div>
   <nav aria-label="Secciones">
-    <a href="#inicio">Inicio</a><a href="#presentacion">Presentación</a><a href="#documentos">Documentos</a><a href="#equipo">Equipo</a><a href="#planta">Planta</a>
+    <a href="#inicio">Inicio</a><a href="#presentacion">Presentación</a><a href="#documentos">Documentos</a><a href="#formatos">Formatos SST</a><a href="#mapa">Mapa de riesgos</a><a href="#equipo">Equipo</a><a href="#planta">Planta</a>
     <button id="theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
   </nav>
 </header>
@@ -98,6 +107,17 @@ footer{background:var(--navy);color:#cfe0ea;padding:28px 20px;font-size:.95rem}
   <div class="sh"><h2>Documentos</h2><p>Cada documento se abre desde Drive en una pestaña nueva.</p></div>
   <div class="tools"><input type="search" id="q" placeholder="Buscar documento" aria-label="Buscar documento"><div class="chips" id="chips"></div></div>
   <div class="grid" id="docs"></div>
+</div></section>
+
+<section id="formatos"><div class="wrap">
+  <div class="sh"><h2>Formatos obligatorios de SST</h2><p>Los 8 registros obligatorios del Sistema de Gestión de Seguridad y Salud en el Trabajo.</p></div>
+  <div class="grid" id="fm"></div>
+</div></section>
+
+<section id="mapa" class="alt"><div class="wrap">
+  <div class="sh"><h2>Mapa de riesgos de la planta</h2><p>Toca el mapa para ampliarlo y vuelve a tocarlo para acercarte.</p></div>
+  <div class="map" id="mapbox"></div>
+  <div class="mapact" id="mapact"></div>
 </div></section>
 
 <section id="equipo"><div class="wrap">
@@ -141,12 +161,38 @@ var CONFIG = {
     { nombre: "Mateo Medina", rol: "Rol en el grupo", foto: "media/equipo/integrante5.jpg" }
   ],
 
+  /* Fotos de la planta: agrega o quita líneas. Las que no existan no se muestran. */
   planta: [
     "media/planta/planta-01.jpg",
     "media/planta/planta-02.jpg",
     "media/planta/planta-03.jpg",
     "media/planta/planta-04.jpg",
-    "media/planta/planta-05.jpg"
+    "media/planta/planta-05.jpg",
+    "media/planta/planta-06.jpg",
+    "media/planta/planta-07.jpg",
+    "media/planta/planta-08.jpg",
+    "media/planta/planta-09.jpg",
+    "media/planta/planta-10.jpg",
+    "media/planta/planta-11.jpg",
+    "media/planta/planta-12.jpg"
+  ],
+
+  /* Mapa de riesgos: imagen del plano. "pdf" es opcional (enlace de Drive o ruta en media/). */
+  mapa: {
+    imagen: "media/mapa/mapa-riesgos.jpg",
+    pdf: ""
+  },
+
+  /* Los 8 registros obligatorios de SST. Pega el enlace de Drive de cada uno en "enlace". */
+  formatos: [
+    { titulo: "Registro de accidentes de trabajo, enfermedades ocupacionales, incidentes peligrosos y otros incidentes", enlace: "" },
+    { titulo: "Registro de exámenes médicos ocupacionales", enlace: "" },
+    { titulo: "Registro del monitoreo de agentes físicos, químicos, biológicos, psicosociales y factores de riesgo disergonómicos", enlace: "" },
+    { titulo: "Registro de inspecciones internas de SST", enlace: "" },
+    { titulo: "Registro de estadísticas de seguridad y salud", enlace: "" },
+    { titulo: "Registro de equipos de seguridad o emergencia", enlace: "" },
+    { titulo: "Registro de inducción, capacitación, entrenamiento y simulacros de emergencia", enlace: "" },
+    { titulo: "Registro de auditorías", enlace: "" }
   ],
 
   /* categoria: Planes, Mapas, Formatos u Otros. En "enlace" pega el link de Drive
@@ -157,9 +203,6 @@ var CONFIG = {
     { titulo: "Plan de respuesta a emergencias", categoria: "Planes", enlace: "" },
     { titulo: "Mapa de riesgos", categoria: "Mapas", enlace: "" },
     { titulo: "Matriz IPERC", categoria: "Formatos", enlace: "https://docs.google.com/spreadsheets/d/1umRwf46Z-omF6Uu62OpmlB9fob7MdOIl/edit?usp=sharing&ouid=115362935020825321371&rtpof=true&sd=true" },
-    { titulo: "Formato de reporte de incidentes", categoria: "Formatos", enlace: "" },
-    { titulo: "Registro de capacitaciones", categoria: "Formatos", enlace: "" },
-    { titulo: "Formato de inspección de seguridad", categoria: "Formatos", enlace: "" }
   ]
 };
 /* ============================ fin de la configuración ============================ */
@@ -198,6 +241,14 @@ function docs(){
 }
 $('#q').oninput=docs;chips();docs();
 
+/* Formatos obligatorios */
+CONFIG.formatos.forEach(function(d,i){
+  var c=mk('article','card fmt');c.appendChild(mk('div','n',String(i+1).padStart(2,'0')));c.appendChild(mk('h3','',d.titulo));
+  var a=mk('a','btn',d.enlace?'Abrir en Drive':'Enlace pendiente');
+  if(d.enlace){a.href=d.enlace;a.target='_blank';a.rel='noopener'}else a.setAttribute('aria-disabled','true');
+  c.appendChild(a);$('#fm').appendChild(c);
+});
+
 /* Equipo */
 CONFIG.equipo.forEach(function(m){
   var c=mk('article','card'),p=mk('div','photo');p.appendChild(pic(m.foto,'Foto de '+m.nombre));
@@ -206,11 +257,22 @@ CONFIG.equipo.forEach(function(m){
 });
 
 /* Galería */
-CONFIG.planta.forEach(function(s,i){
-  var f=mk('figure'),im=pic(s,'Foto de la planta '+(i+1));
-  f.onclick=function(){if(im.tagName!=='IMG')return;$('#dimg').src=s;$('#dlg').showModal()};
-  f.appendChild(im);$('#gal').appendChild(f);
+function show(src,z){var im=$('#dimg');im.className=z?'z':'';im.src=src;$('#dlg').showModal()}
+var left=CONFIG.planta.length;
+CONFIG.planta.forEach(function(src,i){
+  var f=mk('figure'),im=new Image();im.alt='Foto de la planta '+(i+1);im.loading='lazy';
+  im.onerror=function(){f.remove();if(--left===0)$('#gal').appendChild(mk('div','empty','Aún no hay fotos de la planta.'))};
+  im.onclick=function(){show(src)};
+  im.src=src;f.appendChild(im);$('#gal').appendChild(f);
 });
+$('#dimg').onclick=function(){this.classList.toggle('z')};
+
+/* Mapa de riesgos */
+var mi=pic(CONFIG.mapa.imagen,'Mapa de riesgos de la planta');
+mi.onclick=function(){show(CONFIG.mapa.imagen)};
+$('#mapbox').appendChild(mi);
+var b1=mk('button','btn','Ampliar mapa');b1.onclick=function(){if(mi.isConnected)show(CONFIG.mapa.imagen)};$('#mapact').appendChild(b1);
+if(CONFIG.mapa.pdf){var b2=mk('a','btn','Abrir PDF del mapa');b2.href=CONFIG.mapa.pdf;b2.target='_blank';b2.rel='noopener';$('#mapact').appendChild(b2)}
 $('#dx').onclick=function(){$('#dlg').close()};
 $('#dlg').addEventListener('click',function(e){if(e.target===this)this.close()});
 
